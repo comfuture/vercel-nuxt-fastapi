@@ -7,5 +7,4 @@ export const useAPI: typeof useFetch = (request, opts) => {
   const newRequest = `/$api${unref(_reqT)}`
 
   return useFetch(newRequest, {})
-
 }

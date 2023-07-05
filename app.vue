@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAPI } from '~/composables/use-api'
+
 type Data = {
   message: string
 }
