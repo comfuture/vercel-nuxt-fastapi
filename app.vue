@@ -2,9 +2,8 @@
 type Data = {
   message: string
 }
-// const { data } = useFetch<Data>('/api/')
-
-const data = ref<Data>({message: 'Hello from local'})
+const route = useRoute()
+const { data } = useAPI<Data>(route.fullPath)
 </script>
 <template>
   <div>
