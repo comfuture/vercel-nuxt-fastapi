@@ -2,7 +2,7 @@
 type Data = {
   message: string
 }
-const { data } = useFetch<Data>('/api')
+const { data } = useFetch<Data>('/api/')
 </script>
 <template>
   <div>
