@@ -6,5 +6,8 @@ export const useAPI: typeof useFetch = (request, opts) => {
     : unref(request);
   const newRequest = `/api${unref(_reqT)}`
 
-  return useFetch(newRequest, {})
+  return useFetch(newRequest, {
+    headers,
+    ...opts,
+  })
 }
