@@ -9,7 +9,7 @@ const { data } = useAPI<Data>(route.fullPath)
 </script>
 <template>
   <div>
-    ...
+    serve from icn1
     Message from server: {{ data?.message }}
   </div>
 </template>
