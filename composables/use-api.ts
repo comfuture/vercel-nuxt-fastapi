@@ -3,14 +3,15 @@ export const useAPI: typeof useFetch = (request, opts) => {
   const { $fetch } = useRequestEvent()
 
   // append /api to the request
+  const base = process.server? 'https://${headers.host' ?? '' : ''
   const _reqT = typeof request === 'function'
     ? request()
     : unref(request);
-  const newRequest = `https://${headers.host ?? ''}/api${unref(_reqT)}`
+  const newRequest = `${base}/api${unref(_reqT)}`
 
   return useFetch(newRequest, {
     headers,
     ...opts,
-    $fetch
+    $fetch: process.server ? $fetch : undefined
   })
 }
