@@ -1,63 +1,53 @@
-# Nuxt 3 Minimal Starter
+# Nuxt + FastAPI deploy on Vercel
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+On Vercel, the `api` directory is automatically deployed as a serverless function.
+And the `app` object in any python file in the `api` directory will treated as a asgi application.
 
-## Setup
+On this template, `app/main.py` populates FastAPI application object. and rewrites all `/api(.*)` requests to `/api/main` serverless function.
 
-Make sure to install the dependencies:
+On Nuxt, the `useFetch` composable fetches data from `/api/main` serverless function.
+But if the url starts with `/`, `$fetch` helper try to call `/server/api/*.ts` eventHandlers instead of making http request.
 
-```bash
-# npm
-npm install
+`useAPI` composable is a wrapper of `useFetch` composable. It automatically adds `/api` prefix to the url.
 
-# pnpm
-pnpm install
+## Live Demo
 
-# yarn
-yarn install
+https://vercel-nuxt-fastapi.vercel.app/
+
+## Deploy your own
+
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/comfuture/vercel-nuxt-fastapi&project-name=vercel-nuxt-fastapi&repository-name=vercel-nuxt-fastapi)
+
+## Example
+
+filename: server/api.py
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/hello")
+async def greeting():
+    return {"message": "Hello World"}
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
+filename: pages/hello.vue
+```vue
+<script setup lang="ts">
+const route = useRoute()
+const { data } = useAPI<{ message: string }>(route.fullPath)
+</script>
+<template>
+  <div>
+    Greeting from server: {{ data?.message }}
+  </div>
+</template>
 ```
 
-## Production
+## OpenAPI Document
 
-Build the application for production:
+Of course, FastAPI provides OpenAPI document.
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- https://vercel-nuxt-fastapi.vercel.app/api/docs
+- https://vercel-nuxt-fastapi.vercel.app/api/redoc
