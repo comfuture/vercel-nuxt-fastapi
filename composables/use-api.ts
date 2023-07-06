@@ -9,5 +9,7 @@ export const useAPI: typeof useFetch = (request, opts) => {
   return useFetch(newRequest, {
     headers,
     ...opts,
+    lazy: true,
+    server: false,
   })
 }
