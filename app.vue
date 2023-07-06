@@ -5,7 +5,7 @@ type Data = {
   message: string
 }
 const route = useRoute()
-const { data } = useAPI<Data>(route.fullPath)
+const { data } = await useAPI<Data>(route.fullPath)
 </script>
 <template>
   <div>
