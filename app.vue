@@ -9,6 +9,7 @@ const { data } = useAPI<Data>(route.fullPath)
 </script>
 <template>
   <div>
+    ...
     Message from server: {{ data?.message }}
   </div>
 </template>
